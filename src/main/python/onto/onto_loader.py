@@ -3,19 +3,22 @@ from src.main.python.onto.onto_storage import OntoStorageInterface
 
 #This class has responsability to read file and store data in memory structure
 class OntoLoader:
+    PARENT_LIST_SEPARATOR = "|"
+    LINE_SEPARATOR = ","
     __ontoStorage:OntoStorageInterface
 
     def __init__(self,ontoStorage: OntoStorageInterface):
         self.ontoStorage = ontoStorage
 
     def __listParentsToTuple(self,parents):
-        if ("|" not in parents):
+        if (self.PARENT_LIST_SEPARATOR not in parents):
             return (parents,)
-        tokensParents = parents.split("|")
+        tokensParents = parents.split(self.PARENT_LIST_SEPARATOR)
         return tuple(tokensParents)
 
     def __getOntoFromLine(self,line):
-        tokens = line.split(",")
+        line = line.rstrip('\n')
+        tokens = line.split(self.LINE_SEPARATOR)
         classId = tokens[0]
         label = tokens[1]
         parents = tokens[2]
@@ -35,7 +38,6 @@ class OntoLoader:
         f = open(name)
         i = 1
         for line in f:
-            line = line.rstrip('\n')
             #ignore first line
             if i > 1:
                 onto = self.__getOntoFromLine(line)
