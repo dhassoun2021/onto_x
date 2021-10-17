@@ -28,5 +28,5 @@ class OntoMemoryStorage(OntoStorageInterface):
     def findParentsById(self, classId: str) -> tuple:
         return self.ontoChildParents.get(classId)
 
-    def findChildrenById(self, parents: tuple) -> list:
+    def findChildren(self, parents: tuple) -> list:
         return self.ontoParentChildren.get(parents)
