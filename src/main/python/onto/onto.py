@@ -14,16 +14,15 @@ def loadFile(name):
            parents = tokens[2]
            ontoClassIdLabel[id] = label
            if (len(parents) > 1):
-               listParents = parents.split("|")
-               ontoChildParents[id] = listParents
-               tupleParents = tuple(listParents)
+               tupleParents = listParentsToTuple(parents)
+               ontoChildParents[id] = tupleParents
                pushParentsIdChild(tupleParents,id)
         i = i+1
     f.close()
 
 def listParentsToTuple(parents):
     if ("|" not in parents):
-        return tuple(parents)
+        return (parents,)
     tokensParents = parents.split("|")
     return tuple(tokensParents)
 
@@ -67,8 +66,7 @@ def searchEntityByIdAndDeep(classIds:tuple,deep,ontoClassIdLabelDeep):
                 ontoClassIdLabelDeep[classId] = (label,deep,)
                 parents = ontoChildParents.get(classId)
                 if parents is not None and len(parents) > 0:
-                    tupleParents = tuple(parents)
-                    searchEntityByIdAndDeep(tupleParents,deepParent,ontoClassIdLabelDeep)
+                    searchEntityByIdAndDeep(parents,deepParent,ontoClassIdLabelDeep)
     if deepChild >= 0:
       children = ontoParentChildren.get(classIds)
       if children is not None and len(children) > 0:
