@@ -1,0 +1,5 @@
+Class ID,Preferred Label,Parents
+http://entity/CST/HYPOCHLOREM,HYPOCHLOREMIA,http://entity/CST/METGEN|http://entity/CST/MAN/ION/CL
+http://entity/CST/METGEN,METGEN,
+http://entity/CST/MAN/ION/CL,CL,
+http://entity/CST/MET,MET,http://entity/CST/METGEN|http://entity/CST/MAN/ION/CL

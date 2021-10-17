@@ -1,7 +1,7 @@
 ontoChildParents = dict()
 ontoParentChildren = dict()
 ontoClassIdLabel = dict()
-ontoLabelDeep = dict()
+
 def loadFile(name):
     f = open(name)
     i = 1
@@ -40,27 +40,41 @@ def pushParentsIdChild(tupleParents,idChild):
     id.append(idChild)
 
 def searchEntityById(classId):
-    searchEntityByIdAndDeep((classId,),0)
+    ontoClassIdLabelDeep = dict()
+    searchEntityByIdAndDeep((classId,),0,ontoClassIdLabelDeep)
+    ontoLabelDeep = ontoIdClassLabelDeepToOntoLabelDeep(ontoClassIdLabelDeep)
+    return ontoLabelDeep
 
-def searchEntityByIdAndDeep(classIds:tuple,deep):
+def ontoIdClassLabelDeepToOntoLabelDeep(ontoClassIdLabelDeep:dict):
+    ontoLabelDeep = dict()
+    values = ontoClassIdLabelDeep.values()
+    for value in values:
+        label = value[0]
+        deep = value[1]
+        ontoLabelDeep[label] = deep
+    return ontoLabelDeep
+
+def isOntoProcessed (classId,ontoClassIdLabelDeep):
+    return ontoClassIdLabelDeep.get(classId) is None
+
+def searchEntityByIdAndDeep(classIds:tuple,deep,ontoClassIdLabelDeep):
     deepParent = deep + 1
     deepChild = deep - 1
     for classId in classIds:
         label = ontoClassIdLabel.get(classId)
         if label is not None and len(label) > 0:
-            tupleLabelDeep = ontoLabelDeep.get(classId)
-            if tupleLabelDeep is None:
-                ontoLabelDeep[classId] = (label,deep,)
-                parents = ontoChildParents[classId]
+            if isOntoProcessed(classId,ontoClassIdLabelDeep):
+                ontoClassIdLabelDeep[classId] = (label,deep,)
+                parents = ontoChildParents.get(classId)
                 if parents is not None and len(parents) > 0:
                     tupleParents = tuple(parents)
-                    searchEntityByIdAndDeep(tupleParents,deepParent)
+                    searchEntityByIdAndDeep(tupleParents,deepParent,ontoClassIdLabelDeep)
     if deepChild >= 0:
       children = ontoParentChildren.get(classIds)
       if children is not None and len(children) > 0:
-          searchEntityByIdAndDeep(tuple(children), deepChild)
+          searchEntityByIdAndDeep(tuple(children), deepChild,ontoClassIdLabelDeep)
 
 if __name__ == '__main__':
-    loadFile('c:/projets/onto_x/src/resources/onto_x.csv')
-    searchEntityById("http://entity/CST/CERVIX%20DIS")
-    print("hello")
+    loadFile('c:/projets/onto_x/src/main/resources/onto_test.csv')
+    ontoClassIdLabelDeep = searchEntityById("http://entity/CST/HYPOCHLOREM")
+    print(ontoClassIdLabelDeep)
