@@ -6,11 +6,13 @@ from onto_finder import OntoFinder
 
 if __name__ == '__main__':
   args = sys.argv
+  fileName = args[1]
+  commandName = args[2]
+  parameterQuery = args[3]
   ontoStorage = OntoMemoryStorage()
   loader = OntoLoader(ontoStorage)
   finder = OntoFinder(ontoStorage)
-  print("Load file " + args[1])
-  loader.loadFile(args[1])
+  loader.loadFile(fileName)
   print("File loaded\n")
-  ontoRelation = finder.searchEntityById("http://entity/CST/HYPOCHLOREM")
+  ontoRelation = finder.searchEntityById(parameterQuery)
   print(ontoRelation)
