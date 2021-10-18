@@ -1,4 +1,4 @@
-from src.main.python.onto.onto_storage import OntoStorageInterface
+from onto_storage import OntoStorageInterface
 
 #Class which handle storage in memory using dictionnary
 class OntoMemoryStorage(OntoStorageInterface):

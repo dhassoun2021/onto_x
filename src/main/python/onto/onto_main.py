@@ -1,7 +1,9 @@
-from src.main.python.onto.onto_loader import OntoLoader
-from src.main.python.onto.onto_finder import OntoFinder
-from src.main.python.onto.onto_memory_storage import OntoMemoryStorage
+
 import sys
+from onto_loader import OntoLoader
+from onto_memory_storage import OntoMemoryStorage
+from onto_finder import OntoFinder
+
 if __name__ == '__main__':
   args = sys.argv
   ontoStorage = OntoMemoryStorage()

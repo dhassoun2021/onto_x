@@ -1,5 +1,5 @@
-from src.main.python.onto.onto_data import OntoData
-from src.main.python.onto.onto_storage import OntoStorageInterface
+from onto_data import OntoData
+from onto_storage import OntoStorageInterface
 
 #This class has responsability to read file and store data in memory structure
 class OntoLoader:

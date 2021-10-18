@@ -1,4 +1,4 @@
-from src.main.python.onto.onto_storage import OntoStorageInterface
+from onto_storage import OntoStorageInterface
 
 #This class has responsability to find onto from id or label
 class OntoFinder:

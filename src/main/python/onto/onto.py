@@ -1,6 +1,6 @@
-from src.main.python.onto.onto_loader import OntoLoader
-from src.main.python.onto.onto_finder import OntoFinder
-from src.main.python.onto.onto_memory_storage import OntoMemoryStorage
+from onto_loader import OntoLoader
+from onto_finder import OntoFinder
+from onto_memory_storage import OntoMemoryStorage
 
 ontoChildParents = dict()
 ontoParentChildren = dict()
