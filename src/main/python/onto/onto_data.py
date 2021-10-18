@@ -1,9 +1,9 @@
 class OntoData:
-    __classId:str
-    __label:str
-    __parents:tuple
+    __classId: str
+    __label: str
+    __parents: tuple
 
-    def __init__(self,classId,label,parents):
+    def __init__(self,classId, label, parents):
         self.__classId = classId
         self.__label = label
         self.__parents = parents

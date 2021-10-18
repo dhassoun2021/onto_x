@@ -1,15 +1,15 @@
 from onto_storage import OntoStorageInterface
 
-#Class which handle storage in memory using dictionnary
+# Class which handle storage in memory using dictionnary
 class OntoMemoryStorage(OntoStorageInterface):
 
-    #Associate onto classId and a tuple of parents
+    # Associate onto classId and a tuple of parents
     ontoChildParents = dict()
 
-    #Associate tuple of parents and list of children
+    # Associate tuple of parents and list of children
     ontoParentChildren = dict()
 
-    #Associate onto classId and label
+    # Associate onto classId and label
     ontoClassIdLabel = dict()
 
     # Associate onto label and classId
