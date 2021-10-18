@@ -5,6 +5,10 @@ class OntoStorageInterface:
     def insertClassIdLabelOnto(self, classId: str, label: str):
         pass
 
+    # store association label and classId
+    def insertLabelClassIdOnto(self, classId: str, label: str):
+        pass
+
      #store association classId and parents
     def insertClassIdParentsOnto(self, classId: str, parents: tuple):
         pass
@@ -15,6 +19,10 @@ class OntoStorageInterface:
 
     #Find label from classId
     def findLabelById(self,classId:str)->str:
+        pass
+
+    # Find classId from label
+    def findClassIdByLabel(self, label: str) -> str:
         pass
 
     #Find parents from classId

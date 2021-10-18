@@ -16,7 +16,7 @@ class OntoTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_findHypochloremShouldSuccess(self):
+    def test_findHypochloremByIdShouldSuccess(self):
         finder = OntoFinder(self.__ontoStorage)
         ontoLabelDeep = finder.searchEntityById("http://entity/CST/HYPOCHLOREM")
         self.assertIsNotNone(ontoLabelDeep)
@@ -26,6 +26,31 @@ class OntoTest(unittest.TestCase):
         self.assertEqual(ontoLabelDeep.get("CL"), 1)
         self.assertEqual(ontoLabelDeep.get("MET"), 0)
 
+    def test_findHypochloremByNameShouldSuccess(self):
+        finder = OntoFinder(self.__ontoStorage)
+        ontoLabelDeep = finder.searchEntityByLabel("HYPOCHLOREMIA")
+        self.assertIsNotNone(ontoLabelDeep)
+        self.assertEqual(len(ontoLabelDeep),4)
+        self.assertEqual(ontoLabelDeep.get("HYPOCHLOREMIA"),0)
+        self.assertEqual(ontoLabelDeep.get("METGEN"), 1)
+        self.assertEqual(ontoLabelDeep.get("CL"), 1)
+        self.assertEqual(ontoLabelDeep.get("MET"), 0)
+
+    def test_findHypochloremByNameWithLowerCaseShouldSuccess(self):
+        finder = OntoFinder(self.__ontoStorage)
+        ontoLabelDeep = finder.searchEntityByLabel("hypochloremia")
+        self.assertIsNotNone(ontoLabelDeep)
+        self.assertEqual(len(ontoLabelDeep),4)
+        self.assertEqual(ontoLabelDeep.get("HYPOCHLOREMIA"),0)
+        self.assertEqual(ontoLabelDeep.get("METGEN"), 1)
+        self.assertEqual(ontoLabelDeep.get("CL"), 1)
+        self.assertEqual(ontoLabelDeep.get("MET"), 0)
+
+    def test_findHypochloremByNameNotFoundShouldReturnEmptyResult(self):
+        finder = OntoFinder(self.__ontoStorage)
+        ontoLabelDeep = finder.searchEntityByLabel("hyp")
+        self.assertIsNotNone(ontoLabelDeep)
+        self.assertEqual(ontoLabelDeep, dict())
 
 
 if __name__ == '__main__':

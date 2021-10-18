@@ -12,10 +12,17 @@ class OntoMemoryStorage(OntoStorageInterface):
     #Associate onto classId and label
     ontoClassIdLabel = dict()
 
+    # Associate onto label and classId
+    ontoLabelClassId = dict()
+
     def __init__(self):
         pass
     def insertClassIdLabelOnto(self, classId: str, label: str):
         self.ontoClassIdLabel[classId] = label
+        pass
+
+    def insertLabelClassIdOnto(self, classId: str, label: str):
+        self.ontoLabelClassId[label] = classId
         pass
     def insertClassIdParentsOnto(self, classId: str, parents: tuple):
         self.ontoChildParents[classId] = parents
@@ -30,6 +37,10 @@ class OntoMemoryStorage(OntoStorageInterface):
 
     def findLabelById(self, classId: str) -> str:
         return self.ontoClassIdLabel.get(classId)
+
+    # Find classId from label
+    def findClassIdByLabel(self, label: str) -> str:
+        return self.ontoLabelClassId.get(label)
 
     def findParentsById(self, classId: str) -> tuple:
         return self.ontoChildParents.get(classId)

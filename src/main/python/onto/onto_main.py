@@ -15,4 +15,5 @@ if __name__ == '__main__':
   loader.loadFile(fileName)
   print("File loaded\n")
   ontoRelation = finder.searchEntityById(parameterQuery)
+  #ontoRelation = finder.searchEntityByLabel(parameterQuery)
   print(ontoRelation)

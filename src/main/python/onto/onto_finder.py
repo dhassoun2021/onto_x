@@ -14,6 +14,12 @@ class OntoFinder:
         ontoLabelDeep = self.__ontoIdClassLabelDeepToOntoLabelDeep(ontoClassIdLabelDeep)
         return ontoLabelDeep
 
+    def searchEntityByLabel(self,label:str):
+        classId = self.ontoStorage.findClassIdByLabel(label.upper())
+        if classId is None or len(classId) is 0 :
+            return dict()
+        return self.searchEntityById(classId)
+
     def __ontoIdClassLabelDeepToOntoLabelDeep(self,ontoClassIdLabelDeep: dict):
         ontoLabelDeep = dict()
         values = ontoClassIdLabelDeep.values()

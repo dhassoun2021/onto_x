@@ -27,6 +27,7 @@ class OntoLoader:
     def __storeOntoDatas(self,onto:OntoData):
         # store classId -> label
         self.ontoStorage.insertClassIdLabelOnto(onto.getClassId(), onto.getLabel())
+        self.ontoStorage.insertLabelClassIdOnto(onto.getClassId(), onto.getLabel().upper())
         if (len(onto.getParents()) > 1):
             tupleParents = self.__listParentsToTuple(onto.getParents())
             # store classId->parents
