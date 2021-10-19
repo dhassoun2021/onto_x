@@ -1,7 +1,7 @@
 from onto_storage import OntoStorageInterface
 
 
-# This class has responsability to find entity from id or label
+# This class has responsability to find entity from class id or label
 class OntoFinder:
     __ontoStorage: OntoStorageInterface
 

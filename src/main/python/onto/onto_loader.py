@@ -1,8 +1,11 @@
-from onto_data import OntoData
+from onto_data import EntityData
 from onto_storage import OntoStorageInterface
 
 
 # This class has responsability to read file and store data in memory structure
+
+
+
 class OntoLoader:
     PARENT_LIST_SEPARATOR = "|"
     LINE_SEPARATOR = ","
@@ -18,7 +21,7 @@ class OntoLoader:
             # ignore first line
             if i > 1:
                 onto = self.__get_onto_from_line(line)
-                self.__store_onto_datas(onto)
+                self.__store_entity_datas(onto)
             i = i + 1
         f.close()
 
@@ -39,10 +42,10 @@ class OntoLoader:
         label = tokens[1]
         parents = tokens[2]
         tupleParents = self.__listParentsToTuple(parents)
-        return OntoData(classId, label, tupleParents)
+        return EntityData(classId, label, tupleParents)
 
     # Store datas
-    def __store_onto_datas(self, onto: OntoData):
+    def __store_entity_datas(self, onto: EntityData):
         # store classId -> label
         self.ontoStorage.insertClassIdLabelOnto(onto.getClassId(), onto.getLabel())
         self.ontoStorage.insertLabelClassIdOnto(onto.getClassId(), onto.getLabel().upper())

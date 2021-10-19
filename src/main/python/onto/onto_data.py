@@ -1,4 +1,4 @@
-class OntoData:
+class EntityData:
     __classId: str
     __label: str
     __parents: tuple
