@@ -14,14 +14,15 @@ class OntoLoader:
     def __init__(self,ontoStorage: OntoStorageInterface):
         self.ontoStorage = ontoStorage
 
+    # Load csv file of path name, and store data
     def load_file(self, name):
         f = open(name)
         i = 1
         for line in f:
             # ignore first line
             if i > 1:
-                onto = self.__get_onto_from_line(line)
-                self.__store_entity_datas(onto)
+                entity = self.__get_entity_from_line(line)
+                self.__store_entity_datas(entity)
             i = i + 1
         f.close()
 
@@ -34,8 +35,8 @@ class OntoLoader:
         tokensParents = parents.split(self.PARENT_LIST_SEPARATOR)
         return tuple(tokensParents)
 
-    # Build onto data from line
-    def __get_onto_from_line(self, line):
+    # Build entity data from line
+    def __get_entity_from_line(self, line):
         line = line.rstrip('\n')
         tokens = line.split(self.LINE_SEPARATOR)
         classId = tokens[0]

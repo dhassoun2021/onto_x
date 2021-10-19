@@ -3,7 +3,7 @@
 The purpose on this project is to build logical representation on Onto-x that preserves ancestor relationship (direct and indirect) and so construct the hierarchy on entity.
 
 ## Prequisite
-You need to install last version of python and last version of pyBuilder tool.
+You need to install last version of python and last version of pyBuilder tool (see https://pybuilder.io/).
 
 ## Build project
 Go to directory "onto_x" and launch command "pyb" .
@@ -29,4 +29,9 @@ The command line has 3 mandatory parameters:
 - Query by id:
 
     onto_main.py C:\projets\onto_x\src\main\resources\onto_x.csv searchOntoById "http://entity/CST/CERVIX%20DIS"
+
+In each case will be a dictionary as (classId,label)-> depth.
+
+For example:
+{('http://entity/CST/CERVIX%20DIS', 'CERVIX DISORDER'): 0, ('http://entity/CST/GYNCERV', 'CERVIX DISORDERS'): 1, ('http://entity/CST/GYN', 'GYNECOLOGIC DISORDERS'): 2, ('http://entity/CST/MS', 'Musculo-skeletal System'): 2, ('http://entity/CST/MS/FAS', 'Fascial Disorders'): 1, ('http://entity/CST/MS/LIG', 'Ligamentous Disorders'): 1, ('http://entity/CST/MS/BUR', 'Bursal Disorders'): 1, ('http://entity/CST/MS/JNT', 'Joint Disorders'): 1, ('http://entity/CST/MS/BON', 'Bone Disorders'): 1, ('http://entity/CST/MS/BON/MED', 'medulla (exluding hematopoietic marrow reactions)'): 0, ('http://entity/CST/MS/BON/COR', 'cortex'): 0, ('http://entity/CST/MS/BON/PER', 'periosteum'): 0, ('http://entity/CST/MS/CART', 'Cartilage Disorders'): 1, ('http://entity/CST/MS/MUS', 'Muscular Disorders'): 1, ('http://entity/CST/MS/TEN', 'Tendinous Disorders'): 1, ('http://entity/CST/MS/GEN', 'Musculo-skeletal System'): 1, ('http://entity/CST/DIG', 'Digestive System'): 2, ('http://entity/CST/DIG/EC', 'Entercolon'): 1, ('http://entity/CST/DIG/GD', 'Gastro-Duodenal'): 1, ('http://entity/CST/DIG/BUC', 'Buccal Cavity'): 1 ...
 

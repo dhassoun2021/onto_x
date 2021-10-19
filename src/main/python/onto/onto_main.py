@@ -20,7 +20,7 @@ if __name__ == '__main__':
     loader = OntoLoader(ontoStorage)
     finder = OntoFinder(ontoStorage)
     loader.load_file(fileName)
-    print("File loaded\n")
+    print("File " + fileName + " loaded\n")
     if commandName == "searchOntoById":
         ontoRelation = finder.search_entity_by_id(parameterQuery)
         print(ontoRelation)

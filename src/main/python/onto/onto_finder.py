@@ -8,28 +8,31 @@ class OntoFinder:
     def __init__(self, ontoStorage: OntoStorageInterface):
         self.ontoStorage = ontoStorage
 
-    # Find entity from class id
+    # Find entities hierarchies from class id
+    # Return result hierarchy as dictionary as (classId,label) -> deep
     def search_entity_by_id(self, class_id):
         ontoClassIdLabelDeep = dict()
         self.__searchEntityByIdAndDeep((class_id,), 0, ontoClassIdLabelDeep, False)
-        ontoLabelDeep = self.__ontoIdClassLabelDeepToOntoLabelDeep(ontoClassIdLabelDeep)
-        return ontoLabelDeep
+        onto_result = self.__ontoIdClassLabelDeepToOntoResult(ontoClassIdLabelDeep)
+        return onto_result
 
+    # Find entities hierarchies from from label
+    # Return result hierarchy as dictionary as (classId,label) -> depth
     def search_entity_by_label(self, label: str):
         classId = self.ontoStorage.findClassIdByLabel(label.upper())
         if classId is None or len(classId) == 0:
             return dict()
         return self.search_entity_by_id(classId)
 
-    def __ontoIdClassLabelDeepToOntoLabelDeep(self, ontoClassIdLabelDeep: dict):
-        ontoLabelDeep = dict()
+    def __ontoIdClassLabelDeepToOntoResult(self, ontoClassIdLabelDeep: dict):
+        onto_result = dict()
         keys = ontoClassIdLabelDeep.keys()
         for key in keys:
             tupleLabelDeep = ontoClassIdLabelDeep[key]
-            ontoLabelDeep[(key,tupleLabelDeep[0])] = tupleLabelDeep[1]
-        return ontoLabelDeep
+            onto_result[(key,tupleLabelDeep[0])] = tupleLabelDeep[1]
+        return onto_result
 
-    def __isOntoProcessed(self, classId, ontoClassIdLabelDeep):
+    def __isEntityProcessed(self, classId, ontoClassIdLabelDeep):
         return ontoClassIdLabelDeep.get(classId) is None
 
     def __isParentsExist (self, parents: tuple):
@@ -54,14 +57,15 @@ class OntoFinder:
     def __addEntity(self, class_id: str, ontoClassIdLabelDeep: dict, deep: int):
         label = self.ontoStorage.findLabelById(class_id)
         if self.__isEntityExist(label):
-            if self.__isOntoProcessed(class_id, ontoClassIdLabelDeep):
+            if self.__isEntityProcessed(class_id, ontoClassIdLabelDeep):
                 ontoClassIdLabelDeep[class_id] = (label, deep,)
 
     # Search entity recursively
     # Algorithm:
     # For a given entity we get recursively his parents, for each set of parents found we get recursively children (until deep 0).
     # If an entity as a set (P1,P2) as parents, we will search children if (P1,P2) set ... but not children of P1 and children of P2
-    def __searchEntityByIdAndDeep(self, classIds: tuple, deep, ontoClassIdLabelDeep, childProcessing: bool):
+    # Datas are stored in ontoClassIdLabelDeep dictionay as (classId->(label,depth))
+    def __searchEntityByIdAndDeep(self, classIds: tuple, deep, ontoClassIdLabelDeep: dict, childProcessing: bool):
         deepParent = deep + 1
         deepChild = deep - 1
         for classId in classIds:
