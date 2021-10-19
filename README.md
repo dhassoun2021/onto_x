@@ -6,7 +6,7 @@ The purpose on this project is to build logical representation on Onto-x that pr
 You need to install last version of python and last version of pyBuilder tool (see https://pybuilder.io/).
 
 ## Build project
-Go to directory "onto_x" and launch command "pyb" .
+Go to root directory and launch command "pyb" .
 
 ## Test command line
 After building project, go to directory "target\dist\onto_x-1.0.dev0\onto".
