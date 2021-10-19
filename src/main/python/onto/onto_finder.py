@@ -1,14 +1,14 @@
 from onto_storage import OntoStorageInterface
 
 
-# This class has responsability to find onto from id or label
+# This class has responsability to find entity from id or label
 class OntoFinder:
     __ontoStorage: OntoStorageInterface
 
     def __init__(self, ontoStorage: OntoStorageInterface):
         self.ontoStorage = ontoStorage
 
-    # Find onto from class id
+    # Find entity from class id
     def searchEntityById(self, classId):
         ontoClassIdLabelDeep = dict()
         self.__searchEntityByIdAndDeep((classId,), 0, ontoClassIdLabelDeep, False)
@@ -32,25 +32,47 @@ class OntoFinder:
     def __isOntoProcessed(self, classId, ontoClassIdLabelDeep):
         return ontoClassIdLabelDeep.get(classId) is None
 
+    def __isParentsExist (self, parents: tuple):
+        return parents is not None and len(parents) > 0
+
+    def __isChildrenExist (self, children: list):
+        return children is not None and len(children) > 0
+
+    def __isEntityExist (self, label: str):
+        return label is not None and len(label) > 0
+
+    def __searchParents (self, classId: str, deepLevel: int, ontoClassIdLabelDeep: dict):
+        parents = self.ontoStorage.findParentsById(classId)
+        if self.__isParentsExist(parents):
+            self.__searchEntityByIdAndDeep(parents, deepLevel, ontoClassIdLabelDeep, False)
+
+    def __searchChildren (self, tuple_class_id: tuple, deepLevel: int, ontoClassIdLabelDeep: dict):
+        children = self.ontoStorage.findChildren(tuple_class_id)
+        if self.__isChildrenExist(children):
+            self.__searchEntityByIdAndDeep(tuple(children), deepLevel, ontoClassIdLabelDeep, True)
+
+    def __addEntity(self, class_id: str, ontoClassIdLabelDeep: dict, deep: int):
+        label = self.ontoStorage.findLabelById(class_id)
+        if self.__isEntityExist(label):
+            if self.__isOntoProcessed(class_id, ontoClassIdLabelDeep):
+                ontoClassIdLabelDeep[class_id] = (label, deep,)
+
+    # Search entity recursively
+    # Algorithm:
+    # For a given entity we get recursively his parents, for each set of parents found we get recursively children (until deep 0).
+    # If an entity as a set (P1,P2) as parents, we will search children if (P1,P2) set ... but not children of P1 and children of P2
     def __searchEntityByIdAndDeep(self, classIds: tuple, deep, ontoClassIdLabelDeep, childProcessing: bool):
         deepParent = deep + 1
         deepChild = deep - 1
         for classId in classIds:
-            label = self.ontoStorage.findLabelById(classId)
-            if label is not None and len(label) > 0:
-                if self.__isOntoProcessed(classId, ontoClassIdLabelDeep):
-                    ontoClassIdLabelDeep[classId] = (label, deep,)
-                    if not childProcessing:
-                        parents = self.ontoStorage.findParentsById(classId)
-                        if parents is not None and len(parents) > 0:
-                            self.__searchEntityByIdAndDeep(parents, deepParent, ontoClassIdLabelDeep, False)
+            # store entity found
+            self.__addEntity(classId, ontoClassIdLabelDeep, deep)
+            if not childProcessing:
+                self.__searchParents(classId, deepParent, ontoClassIdLabelDeep)
+            # search children until deep 0
+            elif deepChild >= 0:
+                self.__searchChildren((classId,), deepChild, ontoClassIdLabelDeep)
         if deepChild >= 0:
             if not childProcessing:
-                children = self.ontoStorage.findChildren(classIds)
-                if children is not None and len(children) > 0:
-                    self.__searchEntityByIdAndDeep(tuple(children), deepChild, ontoClassIdLabelDeep, True)
-            else:
-                for classId in classIds:
-                    children = self.ontoStorage.findChildren((classId,))
-                    if children is not None and len(children) > 0:
-                        self.__searchEntityByIdAndDeep(tuple(children), deepChild, ontoClassIdLabelDeep, True)
+                self.__searchChildren(classIds, deepChild, ontoClassIdLabelDeep)
+

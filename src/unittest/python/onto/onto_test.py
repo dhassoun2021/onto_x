@@ -60,5 +60,13 @@ class OntoTest(unittest.TestCase):
         self.assertIsNotNone(ontoLabelDeep)
         self.assertEqual(dict(), ontoLabelDeep)
 
+   # def test_All(self):
+    #    storage = OntoMemoryStorage()
+     #   loader = OntoLoader(storage)
+      #  loader.loadFile("C:/projets/onto_x/src/main/resources/onto_x.csv")
+       # finder = OntoFinder(storage)
+        #result = finder.searchEntityById("http://entity/CST/CERVIX%20DIS")
+        #print(len(result.keys()))
+
 if __name__ == '__main__':
     unittest.main()
