@@ -11,7 +11,7 @@ class OntoTest(unittest.TestCase):
 
     def setUp(self):
         loader = OntoLoader(self.__ontoStorage)
-        loader.loadFile("../../resources/onto_test.csv")
+        loader.load_file("../../resources/onto_test.csv")
 
 
     def tearDown(self):
@@ -19,7 +19,7 @@ class OntoTest(unittest.TestCase):
 
     def test_findHypochloremByIdShouldSuccess(self):
         finder = OntoFinder(self.__ontoStorage)
-        ontoLabelDeep = finder.searchEntityById("http://entity/CST/HYPOCHLOREM")
+        ontoLabelDeep = finder.search_entity_by_id("http://entity/CST/HYPOCHLOREM")
         self.assertIsNotNone(ontoLabelDeep)
         self.assertEqual(len(ontoLabelDeep),4)
         self.assertEqual(ontoLabelDeep.get(("http://entity/CST/HYPOCHLOREM","HYPOCHLOREMIA")),0)
@@ -29,14 +29,14 @@ class OntoTest(unittest.TestCase):
 
     def test_findHypochloremByIdWithEmptyIdShouldReturnEmptyResult(self):
         finder = OntoFinder(self.__ontoStorage)
-        ontoLabelDeep = finder.searchEntityById("id")
+        ontoLabelDeep = finder.search_entity_by_id("id")
         self.assertIsNotNone(ontoLabelDeep)
         self.assertIsNotNone(ontoLabelDeep)
         self.assertEqual(dict(), ontoLabelDeep)
 
     def test_findHypochloremByNameShouldSuccess(self):
         finder = OntoFinder(self.__ontoStorage)
-        ontoLabelDeep = finder.searchEntityByLabel("HYPOCHLOREMIA")
+        ontoLabelDeep = finder.search_entity_by_label("HYPOCHLOREMIA")
         self.assertIsNotNone(ontoLabelDeep)
         self.assertEqual(4, len(ontoLabelDeep))
         self.assertEqual(ontoLabelDeep.get(("http://entity/CST/HYPOCHLOREM", "HYPOCHLOREMIA")), 0)
@@ -46,7 +46,7 @@ class OntoTest(unittest.TestCase):
 
     def test_findHypochloremByNameWithLowerCaseShouldSuccess(self):
         finder = OntoFinder(self.__ontoStorage)
-        ontoLabelDeep = finder.searchEntityByLabel("hypochloremia")
+        ontoLabelDeep = finder.search_entity_by_label("hypochloremia")
         self.assertIsNotNone(ontoLabelDeep)
         self.assertEqual(4, len(ontoLabelDeep))
         self.assertEqual(ontoLabelDeep.get(("http://entity/CST/HYPOCHLOREM", "HYPOCHLOREMIA")), 0)
@@ -56,7 +56,7 @@ class OntoTest(unittest.TestCase):
 
     def test_findHypochloremByNameNotFoundShouldReturnEmptyResult(self):
         finder = OntoFinder(self.__ontoStorage)
-        ontoLabelDeep = finder.searchEntityByLabel("hyp")
+        ontoLabelDeep = finder.search_entity_by_label("hyp")
         self.assertIsNotNone(ontoLabelDeep)
         self.assertEqual(dict(), ontoLabelDeep)
 

@@ -3,6 +3,7 @@ from onto_loader import OntoLoader
 from onto_memory_storage import OntoMemoryStorage
 from onto_finder import OntoFinder
 
+# Entry point to use application
 if __name__ == '__main__':
     args = sys.argv
     if len(args) != 4:
@@ -18,11 +19,11 @@ if __name__ == '__main__':
     ontoStorage = OntoMemoryStorage()
     loader = OntoLoader(ontoStorage)
     finder = OntoFinder(ontoStorage)
-    loader.loadFile(fileName)
+    loader.load_file(fileName)
     print("File loaded\n")
     if commandName == "searchOntoById":
-        ontoRelation = finder.searchEntityById(parameterQuery)
+        ontoRelation = finder.search_entity_by_id(parameterQuery)
         print(ontoRelation)
     elif commandName == "searchOntoByName":
-        ontoRelation = finder.searchEntityByLabel(parameterQuery)
+        ontoRelation = finder.search_entity_by_label(parameterQuery)
         print(ontoRelation)

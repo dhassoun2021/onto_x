@@ -9,17 +9,17 @@ class OntoFinder:
         self.ontoStorage = ontoStorage
 
     # Find entity from class id
-    def searchEntityById(self, classId):
+    def search_entity_by_id(self, class_id):
         ontoClassIdLabelDeep = dict()
-        self.__searchEntityByIdAndDeep((classId,), 0, ontoClassIdLabelDeep, False)
+        self.__searchEntityByIdAndDeep((class_id,), 0, ontoClassIdLabelDeep, False)
         ontoLabelDeep = self.__ontoIdClassLabelDeepToOntoLabelDeep(ontoClassIdLabelDeep)
         return ontoLabelDeep
 
-    def searchEntityByLabel(self, label: str):
+    def search_entity_by_label(self, label: str):
         classId = self.ontoStorage.findClassIdByLabel(label.upper())
         if classId is None or len(classId) == 0:
             return dict()
-        return self.searchEntityById(classId)
+        return self.search_entity_by_id(classId)
 
     def __ontoIdClassLabelDeepToOntoLabelDeep(self, ontoClassIdLabelDeep: dict):
         ontoLabelDeep = dict()

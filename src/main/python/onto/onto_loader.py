@@ -11,14 +11,14 @@ class OntoLoader:
     def __init__(self,ontoStorage: OntoStorageInterface):
         self.ontoStorage = ontoStorage
 
-    def loadFile(self,name):
+    def load_file(self, name):
         f = open(name)
         i = 1
         for line in f:
             # ignore first line
             if i > 1:
-                onto = self.__getOntoFromLine(line)
-                self.__storeOntoDatas(onto)
+                onto = self.__get_onto_from_line(line)
+                self.__store_onto_datas(onto)
             i = i + 1
         f.close()
 
@@ -32,7 +32,7 @@ class OntoLoader:
         return tuple(tokensParents)
 
     # Build onto data from line
-    def __getOntoFromLine(self,line):
+    def __get_onto_from_line(self, line):
         line = line.rstrip('\n')
         tokens = line.split(self.LINE_SEPARATOR)
         classId = tokens[0]
@@ -42,7 +42,7 @@ class OntoLoader:
         return OntoData(classId, label, tupleParents)
 
     # Store datas
-    def __storeOntoDatas(self, onto: OntoData):
+    def __store_onto_datas(self, onto: OntoData):
         # store classId -> label
         self.ontoStorage.insertClassIdLabelOnto(onto.getClassId(), onto.getLabel())
         self.ontoStorage.insertLabelClassIdOnto(onto.getClassId(), onto.getLabel().upper())
