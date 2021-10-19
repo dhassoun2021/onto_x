@@ -46,6 +46,12 @@ class OntoFinder:
                         if parents is not None and len(parents) > 0:
                             self.__searchEntityByIdAndDeep(parents, deepParent, ontoClassIdLabelDeep, False)
         if deepChild >= 0:
-            children = self.ontoStorage.findChildren(classIds)
-            if children is not None and len(children) > 0:
-                self.__searchEntityByIdAndDeep(tuple(children), deepChild, ontoClassIdLabelDeep, True)
+            if not childProcessing:
+                children = self.ontoStorage.findChildren(classIds)
+                if children is not None and len(children) > 0:
+                    self.__searchEntityByIdAndDeep(tuple(children), deepChild, ontoClassIdLabelDeep, True)
+            else:
+                for classId in classIds:
+                    children = self.ontoStorage.findChildren((classId,))
+                    if children is not None and len(children) > 0:
+                        self.__searchEntityByIdAndDeep(tuple(children), deepChild, ontoClassIdLabelDeep, True)

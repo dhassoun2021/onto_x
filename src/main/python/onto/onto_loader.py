@@ -12,6 +12,8 @@ class OntoLoader:
 
     def __listParentsToTuple(self,parents):
         if self.PARENT_LIST_SEPARATOR not in parents:
+            if (parents is None or len(parents) == 0):
+                return ()
             return (parents,)
         tokensParents = parents.split(self.PARENT_LIST_SEPARATOR)
         return tuple(tokensParents)
@@ -22,18 +24,18 @@ class OntoLoader:
         classId = tokens[0]
         label = tokens[1]
         parents = tokens[2]
-        return OntoData(classId, label, parents)
+        tupleParents = self.__listParentsToTuple(parents)
+        return OntoData(classId, label, tupleParents)
 
     def __storeOntoDatas(self, onto: OntoData):
         # store classId -> label
         self.ontoStorage.insertClassIdLabelOnto(onto.getClassId(), onto.getLabel())
         self.ontoStorage.insertLabelClassIdOnto(onto.getClassId(), onto.getLabel().upper())
-        if len(onto.getParents()) > 1:
-            tupleParents = self.__listParentsToTuple(onto.getParents())
+        if len(onto.getParents()) > 0:
             # store classId->parents
-            self.ontoStorage.insertClassIdParentsOnto(onto.getClassId(), tupleParents)
+            self.ontoStorage.insertClassIdParentsOnto(onto.getClassId(), onto.getParents())
             # store tupe(parents)->class id of children
-            self.ontoStorage.addChildToParents(tupleParents, onto.getClassId())
+            self.ontoStorage.addChildToParents(onto.getParents(), onto.getClassId())
 
     def loadFile(self,name):
         f = open(name)
