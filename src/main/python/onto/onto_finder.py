@@ -23,11 +23,10 @@ class OntoFinder:
 
     def __ontoIdClassLabelDeepToOntoLabelDeep(self, ontoClassIdLabelDeep: dict):
         ontoLabelDeep = dict()
-        values = ontoClassIdLabelDeep.values()
-        for value in values:
-            label = value[0]
-            deep = value[1]
-            ontoLabelDeep[label] = deep
+        keys = ontoClassIdLabelDeep.keys()
+        for key in keys:
+            tupleLabelDeep = ontoClassIdLabelDeep[key]
+            ontoLabelDeep[(key,tupleLabelDeep[0])] = tupleLabelDeep[1]
         return ontoLabelDeep
 
     def __isOntoProcessed(self, classId, ontoClassIdLabelDeep):
